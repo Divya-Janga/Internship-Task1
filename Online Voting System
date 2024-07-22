@@ -1,0 +1,102 @@
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class OnlineVotingSystemGUI {
+
+    private static int candidate1Votes = 0;
+    private static int candidate2Votes = 0;
+
+    public static void main(String[] args) {
+        // Create the main frame
+        JFrame frame = new JFrame("Online Voting System");
+        frame.setSize(400, 300);
+        JFrame frame1 = new JFrame("Assembly Elections");
+        frame1.setSize(500,350);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(null);
+
+        // Create and add the name label and text field
+        JLabel nameLabel = new JLabel("Please enter your name:");
+        nameLabel.setBounds(10, 20, 200, 25);
+        frame.add(nameLabel);
+
+        JTextField nameField = new JTextField();
+        nameField.setBounds(200, 20, 165, 25);
+        frame.add(nameField);
+
+        // Create and add the age label and text field
+        JLabel ageLabel = new JLabel("Please enter your age:");
+        ageLabel.setBounds(10, 60, 200, 25);
+        frame.add(ageLabel);
+
+        JTextField ageField = new JTextField();
+        ageField.setBounds(200, 60, 165, 25);
+        frame.add(ageField);
+
+        // Create and add the candidate selection label
+        JLabel candidateLabel = new JLabel("Please select a candidate:");
+        candidateLabel.setBounds(10, 100, 200, 25);
+        frame.add(candidateLabel);
+
+        // Create and add the radio buttons for candidates
+        JRadioButton candidate1Button = new JRadioButton("Jagan Mohan Reddy");
+        candidate1Button.setBounds(200, 180, 200, 100);
+        frame.add(candidate1Button);
+
+        JRadioButton candidate2Button = new JRadioButton("Nara Chandrababu Nayudu");
+        candidate2Button.setBounds(200, 130, 200, 80);
+        frame.add(candidate2Button);
+
+        // Group the radio buttons
+        ButtonGroup candidateGroup = new ButtonGroup();
+        candidateGroup.add(candidate1Button);
+        candidateGroup.add(candidate2Button);
+
+        // Create and add the vote button
+        JButton voteButton = new JButton("Vote");
+        voteButton.setBounds(60, 250, 90, 30);
+        frame.add(voteButton);
+
+        // Create and add the result label
+        JLabel resultLabel = new JLabel("");
+        resultLabel.setBounds(10, 300, 500, 35);
+        frame.add(resultLabel);
+
+        // Action listener for the vote button
+        voteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String userName = nameField.getText();
+                int userAge;
+                try {
+                    userAge = Integer.parseInt(ageField.getText());
+                } catch (NumberFormatException ex) {
+                    resultLabel.setText("Please enter a valid age.");
+                    return;
+                }
+
+                if (userAge >= 18) {
+                    if (candidate1Button.isSelected()) {
+                        candidate1Votes++;
+                        resultLabel.setText("Thank you for voting, " + userName + "!");
+                    } else if (candidate2Button.isSelected()) {
+                        candidate2Votes++;
+                        resultLabel.setText("Thank you for voting, " + userName + "!");
+                    } else {
+                        resultLabel.setText("Please select a candidate.");
+                    }
+                } else {
+                    resultLabel.setText("I'm sorry, you are not eligible to vote.");
+                }
+
+                // Display the final vote count
+                System.out.println("Candidate 1: " + candidate1Votes + " votes");
+                System.out.println("Candidate 2: " + candidate2Votes + " votes");
+            }
+        });
+
+        // Make the frame visible
+        frame.setVisible(true);
+    }
+}
